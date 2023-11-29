@@ -12,12 +12,12 @@ import Photos
 class HomePageViewController: UIViewController {
 
 
-    let chooseButton = UIButton(type: .system)
-    let secondImageView = UIImageView()
+    let selectImageButton = UIButton(type: .system)
+    let titleLabel = UILabel()
+
+    var imageViews: [UIImageView] = []
 
     let stackView = UIStackView()
-
-    var imageViews: [UIImageView]!
 
     let navigationTitle: String = "Home Page"
 
@@ -25,7 +25,6 @@ class HomePageViewController: UIViewController {
         super.viewDidLoad()
 
         print("Into imageVC")
-
 
         customNavigationBar ()
         configureStackView()
@@ -37,22 +36,23 @@ class HomePageViewController: UIViewController {
         self.navigationItem.title = navigationTitle
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         self.navigationController?.toolbar.isTranslucent = false
     }
 
     func configureStackView () {
+        let spacing: CGFloat = 30.0
         stackView.axis = NSLayoutConstraint.Axis.vertical
-        stackView.spacing = 20
+        stackView.spacing = spacing
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
 
-        stackView.addArrangedSubview(secondImageView)
-        stackView.addArrangedSubview(chooseButton)
+        stackView.addArrangedSubview(selectImageButton)
+        stackView.addArrangedSubview(titleLabel)
 
-        configureChooseButton()
-        configureSecondImageView()
+        configureselectImageButton()
+        configureTitleLabel()
 
         view.addSubview(stackView)
 
@@ -65,33 +65,38 @@ class HomePageViewController: UIViewController {
         ])
     }
 
-    func configureChooseButton () {
-        chooseButton.configuration = UIButton.Configuration.plain()
-        chooseButton.setTitle("Choose image", for: .normal)
-        chooseButton.tintColor = UIColor.systemPink
-        chooseButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        chooseButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    func configureselectImageButton () {
+        selectImageButton.configuration = UIButton.Configuration.plain()
+        selectImageButton.setImage(UIImage(systemName: "plus.square.dashed"), for: .normal)
+        selectImageButton.setPreferredSymbolConfiguration(.init(pointSize: 100), forImageIn: .normal)
+        selectImageButton.tintColor = UIColor.systemPink
+        selectImageButton.widthAnchor.constraint(equalToConstant:  145).isActive = true
+        selectImageButton.heightAnchor.constraint(equalToConstant: 130).isActive = true
 
         // addTarget
-        chooseButton.addTarget(self, action: #selector(chooseButtonTapped), for: .touchUpInside)
+        selectImageButton.addTarget(self, action: #selector(selectImageButtonTapped), for: .touchUpInside)
     }
 
-    func configureSecondImageView () {
-        secondImageView.image = UIImage(systemName: "plus.square.dashed")
-        secondImageView.contentMode = .scaleAspectFit
-        secondImageView.isUserInteractionEnabled = true
-        secondImageView.tintColor = UIColor.systemPink
-        secondImageView.widthAnchor.constraint(equalToConstant: 260).isActive  = true
-        secondImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+    func configureTitleLabel () {
+        titleLabel.text = "Click the + Button"
+        titleLabel.font = UIFont.systemFont(ofSize: 20.0)
+        titleLabel.textColor = .systemPink
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
+
+        titleLabel.widthAnchor.constraint(equalToConstant: 175).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
+
 
     // MARK: - Action
 
-    // chooseButton
-    @objc func chooseButtonTapped (_ sender: UIButton) {
+    // selectImageButton
+    @objc func selectImageButtonTapped (_ sender: UIButton) {
 
-        print("chooseButtonTapped")
-        
+        print("selectImageButtonTapped")
+
         var configuration = PHPickerConfiguration()
         // Choose photos or videos.
         configuration.filter = .images

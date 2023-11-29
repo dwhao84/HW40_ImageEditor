@@ -9,109 +9,100 @@ import UIKit
 import PhotosUI
 import Photos
 
-class ImageViewController: UIViewController {
+class HomePageViewController: UIViewController {
+
 
     let chooseButton = UIButton(type: .system)
     let secondImageView = UIImageView()
-    
+
+    let stackView = UIStackView()
+
     var imageViews: [UIImageView]!
+
+    let navigationTitle: String = "Home Page"
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         print("Into imageVC")
 
-        configureSubview()
 
-        configureChooseButton()
+        customNavigationBar ()
+        configureStackView()
     }
     
     // MARK: - Setup UI
-    func configureSubview () {
+
+    func customNavigationBar () {
+        self.navigationItem.title = navigationTitle
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
+        self.navigationController?.toolbar.isTranslucent = false
+    }
+
+    func configureStackView () {
+        stackView.axis = NSLayoutConstraint.Axis.vertical
+        stackView.spacing = 20
+        stackView.distribution = .equalSpacing
+        stackView.alignment = .center
+
+        stackView.addArrangedSubview(secondImageView)
+        stackView.addArrangedSubview(chooseButton)
+
+        configureChooseButton()
+        configureSecondImageView()
+
+        view.addSubview(stackView)
+
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.widthAnchor.constraint(equalToConstant: 260)
+        ])
+    }
+
+    func configureChooseButton () {
+        chooseButton.configuration = UIButton.Configuration.plain()
+        chooseButton.setTitle("Choose image", for: .normal)
+        chooseButton.tintColor = UIColor.systemPink
+        chooseButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        chooseButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
         // addTarget
         chooseButton.addTarget(self, action: #selector(chooseButtonTapped), for: .touchUpInside)
-
-        view.backgroundColor = .white
-
-        self.view.addSubview(secondImageView)
-        self.view.addSubview(chooseButton)
-    }
-
-
-
-    func configureChooseButton () {
-        chooseButton.translatesAutoresizingMaskIntoConstraints = false
-
-        // Add constraints for chooseButton
-        NSLayoutConstraint.activate([
-            chooseButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            chooseButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -300),
-            chooseButton.widthAnchor.constraint(equalToConstant: 200),
-            chooseButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-
-        chooseButton.configuration = UIButton.Configuration.filled()
-        chooseButton.setTitle("Choose Picture", for: .normal)
     }
 
     func configureSecondImageView () {
-        secondImageView.translatesAutoresizingMaskIntoConstraints = false
-
-        // Constraints for secondImageView
-        NSLayoutConstraint.activate([
-            secondImageView.widthAnchor.constraint(equalToConstant: 260),
-            secondImageView.heightAnchor.constraint(equalToConstant: 200),
-            secondImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
-            secondImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        ])
-        secondImageView.image = UIImage(systemName: "photo.badge.plus.fill")
+        secondImageView.image = UIImage(systemName: "plus.square.dashed")
         secondImageView.contentMode = .scaleAspectFit
         secondImageView.isUserInteractionEnabled = true
+        secondImageView.tintColor = UIColor.systemPink
+        secondImageView.widthAnchor.constraint(equalToConstant: 260).isActive  = true
+        secondImageView.heightAnchor.constraint(equalToConstant: 200).isActive = true
     }
 
     // MARK: - Action
 
     // chooseButton
     @objc func chooseButtonTapped (_ sender: UIButton) {
+
         print("chooseButtonTapped")
-
+        
         var configuration = PHPickerConfiguration()
         // Choose photos or videos.
         configuration.filter = .images
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
+        // Show PHPickerVC
         present(picker, animated: true)
     }
-
-    // imageView
-    @objc func imageViewTapped (_ sender: UIImageView) {
-        print("imageViewTapped")
-        var configuration = PHPickerConfiguration()
-        // Choose photos or videos.
-        configuration.filter = .images
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        present(picker, animated: true)
-    }
-
-    // secondImageView tapped
-    @objc func secondImageViewTapped (_ sender: UIImageView) {
-        print("secondImageViewTapped")
-        var configuration = PHPickerConfiguration()
-        // Choose photos or videos.
-        configuration.filter = .images
-        // Name
-        let picker = PHPickerViewController(configuration: configuration)
-        // Call PHPickerVC delegate itself.
-        picker.delegate = self
-        // Show pickerVC
-        present(picker, animated: true)
-    }
-
 }
 
-extension ImageViewController: PHPickerViewControllerDelegate {
+extension HomePageViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
 
         picker.dismiss(animated: true)

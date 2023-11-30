@@ -19,12 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         let homePageVC = HomePageViewController()
 
-        let editorVC = EditorViewController()
+//        let editorVC = EditorViewController()
 
         navigationController.viewControllers = [homePageVC]
         window.rootViewController = navigationController
         self.window = window
         window.makeKeyAndVisible()
+        navigationController.navigationBar.tintColor = .systemPink
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

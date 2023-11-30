@@ -17,6 +17,8 @@
 		D33914CD2B14FE1600DCF0ED /* HW40_ImageEditorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33914CC2B14FE1600DCF0ED /* HW40_ImageEditorUITestsLaunchTests.swift */; };
 		D33914DA2B14FE3000DCF0ED /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33914D92B14FE3000DCF0ED /* HomePageViewController.swift */; };
 		D33914DC2B14FE3800DCF0ED /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33914DB2B14FE3800DCF0ED /* EditorViewController.swift */; };
+		D3E578D12B178BA500C87F0C /* Button+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E578D02B178BA500C87F0C /* Button+Extensions.swift */; };
+		D3E578D42B17A81D00C87F0C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E578D32B17A81D00C87F0C /* PhotoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		D33914CC2B14FE1600DCF0ED /* HW40_ImageEditorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HW40_ImageEditorUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D33914D92B14FE3000DCF0ED /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		D33914DB2B14FE3800DCF0ED /* EditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
+		D3E578D02B178BA500C87F0C /* Button+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extensions.swift"; sourceTree = "<group>"; };
+		D3E578D32B17A81D00C87F0C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 			children = (
 				D33914DE2B14FEAC00DCF0ED /* Supporting */,
 				D33914AF2B14FE0A00DCF0ED /* Main.storyboard */,
+				D3E578D22B178BD200C87F0C /* Extension */,
 				D33914DD2B14FE9E00DCF0ED /* ViewController */,
 				D33914B72B14FE1500DCF0ED /* Info.plist */,
 			);
@@ -131,6 +136,7 @@
 			children = (
 				D33914D92B14FE3000DCF0ED /* HomePageViewController.swift */,
 				D33914DB2B14FE3800DCF0ED /* EditorViewController.swift */,
+				D3E578D32B17A81D00C87F0C /* PhotoViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -144,6 +150,14 @@
 				D33914B42B14FE1500DCF0ED /* LaunchScreen.storyboard */,
 			);
 			path = Supporting;
+			sourceTree = "<group>";
+		};
+		D3E578D22B178BD200C87F0C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				D3E578D02B178BA500C87F0C /* Button+Extensions.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,9 +292,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D33914AA2B14FE0A00DCF0ED /* AppDelegate.swift in Sources */,
+				D3E578D12B178BA500C87F0C /* Button+Extensions.swift in Sources */,
 				D33914DA2B14FE3000DCF0ED /* HomePageViewController.swift in Sources */,
 				D33914DC2B14FE3800DCF0ED /* EditorViewController.swift in Sources */,
 				D33914AC2B14FE0A00DCF0ED /* SceneDelegate.swift in Sources */,
+				D3E578D42B17A81D00C87F0C /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

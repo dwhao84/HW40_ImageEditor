@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class custombutton: UIButton {
+class CustomButton: UIButton {
     override var isHighlighted : Bool {
         didSet {
             alpha = isHighlighted ? 0.7 : 1

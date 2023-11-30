@@ -11,12 +11,10 @@ import Photos
 
 class HomePageViewController: UIViewController {
 
-
-    let selectImageButton = UIButton(type: .system)
+    let selectImageButton = CustomButton(type: .system)
     let titleLabel = UILabel()
 
     var imageViews: [UIImageView] = []
-
     let stackView = UIStackView()
 
     let navigationTitle: String = "Home Page"
@@ -29,7 +27,7 @@ class HomePageViewController: UIViewController {
         customNavigationBar ()
         configureStackView()
     }
-    
+
     // MARK: - Setup UI
 
     func customNavigationBar () {
@@ -39,6 +37,8 @@ class HomePageViewController: UIViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         self.navigationController?.toolbar.isTranslucent = false
+
+        view.backgroundColor = .white
     }
 
     func configureStackView () {
@@ -48,11 +48,11 @@ class HomePageViewController: UIViewController {
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
 
-        stackView.addArrangedSubview(selectImageButton)
-        stackView.addArrangedSubview(titleLabel)
+        let selectButton = configureSelectImageButton()
+        stackView.addArrangedSubview(selectButton)
 
-        configureselectImageButton()
         configureTitleLabel()
+        stackView.addArrangedSubview(titleLabel)
 
         view.addSubview(stackView)
 
@@ -61,30 +61,35 @@ class HomePageViewController: UIViewController {
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            stackView.widthAnchor.constraint(equalToConstant: 260)
+            stackView.widthAnchor.constraint(equalToConstant: 175)
         ])
     }
 
-    func configureselectImageButton () {
+
+    func configureSelectImageButton () -> CustomButton  {
         selectImageButton.configuration = UIButton.Configuration.plain()
-        selectImageButton.setImage(UIImage(systemName: "plus.square.dashed"), for: .normal)
+        selectImageButton.setImage(UIImage(systemName: "photo.badge.plus.fill"), for: .normal)
         selectImageButton.setPreferredSymbolConfiguration(.init(pointSize: 100), forImageIn: .normal)
         selectImageButton.tintColor = UIColor.systemPink
-        selectImageButton.widthAnchor.constraint(equalToConstant:  145).isActive = true
-        selectImageButton.heightAnchor.constraint(equalToConstant: 130).isActive = true
+
+        // Setup width & height
+        selectImageButton.widthAnchor.constraint(equalToConstant:  175).isActive = true
+        selectImageButton.heightAnchor.constraint(equalToConstant: 140).isActive = true
 
         // addTarget
         selectImageButton.addTarget(self, action: #selector(selectImageButtonTapped), for: .touchUpInside)
+        return selectImageButton 
     }
 
     func configureTitleLabel () {
-        titleLabel.text = "Click the + Button"
-        titleLabel.font = UIFont.systemFont(ofSize: 20.0)
+        titleLabel.text = "Click the '+' Button"
+        titleLabel.font = UIFont.systemFont(ofSize: 18.0)
         titleLabel.textColor = .systemPink
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
 
+        // Setup width & height
         titleLabel.widthAnchor.constraint(equalToConstant: 175).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
@@ -95,32 +100,37 @@ class HomePageViewController: UIViewController {
     // selectImageButton
     @objc func selectImageButtonTapped (_ sender: UIButton) {
 
-        print("selectImageButtonTapped")
+//        print("selectImageButtonTapped")
+//
+//        var configuration = PHPickerConfiguration()
+//        // Choose photos or videos.
+//        configuration.filter = .images
+//        let picker = PHPickerViewController(configuration: configuration)
+//        picker.delegate = self
+//        // Show PHPickerVC
+//        present(picker, animated: true)
 
-        var configuration = PHPickerConfiguration()
-        // Choose photos or videos.
-        configuration.filter = .images
-        let picker = PHPickerViewController(configuration: configuration)
-        picker.delegate = self
-        // Show PHPickerVC
-        present(picker, animated: true)
+        let photoVC = PhotoViewController()
+        photoVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(photoVC, animated: true)
     }
 }
 
-extension HomePageViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-
-        picker.dismiss(animated: true)
-        let itemProviders = results.map(\.itemProvider)
-        for (i, itemProvider) in itemProviders.enumerated() where itemProvider.canLoadObject(ofClass: UIImage.self) {
-
-            let previousImage = self.imageViews[0].image
-            itemProvider.loadObject(ofClass: UIImage.self) {[weak self] (image, error) in
-                DispatchQueue.main.async {
-                    guard let self = self, let image = image as? UIImage, self.imageViews[i].image == previousImage else { return }
-                    self.imageViews[i].image = image
-                }
-            }
-        }
-    }
-}
+//extension HomePageViewController: PHPickerViewControllerDelegate {
+//    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+//
+//        picker.dismiss(animated: true)
+//        
+//        let itemProviders = results.map(\.itemProvider)
+//        for (i, itemProvider) in itemProviders.enumerated() where itemProvider.canLoadObject(ofClass: UIImage.self) {
+//
+//            let previousImage = self.imageViews[i].image
+//            itemProvider.loadObject(ofClass: UIImage.self) {[weak self] (image, error) in
+//                DispatchQueue.main.async {
+//                    guard let self = self, let image = image as? UIImage, self.imageViews[i].image == previousImage else { return }
+//                    self.imageViews[i].image = image
+//                }
+//            }
+//        }
+//    }
+//}

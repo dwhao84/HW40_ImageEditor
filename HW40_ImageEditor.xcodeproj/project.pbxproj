@@ -19,6 +19,7 @@
 		D33914DC2B14FE3800DCF0ED /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33914DB2B14FE3800DCF0ED /* EditorViewController.swift */; };
 		D3E578D12B178BA500C87F0C /* Button+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E578D02B178BA500C87F0C /* Button+Extensions.swift */; };
 		D3E578D42B17A81D00C87F0C /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E578D32B17A81D00C87F0C /* PhotoViewController.swift */; };
+		D3E578D62B1A373200C87F0C /* WhateverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E578D52B1A373200C87F0C /* WhateverViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		D33914DB2B14FE3800DCF0ED /* EditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		D3E578D02B178BA500C87F0C /* Button+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extensions.swift"; sourceTree = "<group>"; };
 		D3E578D32B17A81D00C87F0C /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		D3E578D52B1A373200C87F0C /* WhateverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhateverViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 				D33914D92B14FE3000DCF0ED /* HomePageViewController.swift */,
 				D33914DB2B14FE3800DCF0ED /* EditorViewController.swift */,
 				D3E578D32B17A81D00C87F0C /* PhotoViewController.swift */,
+				D3E578D52B1A373200C87F0C /* WhateverViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				D3E578D12B178BA500C87F0C /* Button+Extensions.swift in Sources */,
 				D33914DA2B14FE3000DCF0ED /* HomePageViewController.swift in Sources */,
 				D33914DC2B14FE3800DCF0ED /* EditorViewController.swift in Sources */,
+				D3E578D62B1A373200C87F0C /* WhateverViewController.swift in Sources */,
 				D33914AC2B14FE0A00DCF0ED /* SceneDelegate.swift in Sources */,
 				D3E578D42B17A81D00C87F0C /* PhotoViewController.swift in Sources */,
 			);

@@ -113,6 +113,11 @@ class HomePageViewController: UIViewController {
         let photoVC = PhotoViewController()
         photoVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(photoVC, animated: true)
+
+//        let whateverVC = WhateverViewController()
+//        whateverVC.modalPresentationStyle = .fullScreen
+//        self.navigationController?.pushViewController(whateverVC, animated: true)
+
     }
 }
 

@@ -13,17 +13,18 @@ class PhotoViewController: UIViewController {
     static let loveButtonImage   = UIImage(systemName: "heart")
     static let infoButtonImage   = UIImage(systemName: "info.circle")
     static let trashButtonImage  = UIImage(systemName: "trash")
+    static let editTitle: String = "Edit"
 
-    let shareButton: UIBarButtonItem = UIBarButtonItem ()
-    let loveButton:  UIBarButtonItem = UIBarButtonItem ()
-    let infoButton:  UIBarButtonItem = UIBarButtonItem ()
-    let trashButton: UIBarButtonItem = UIBarButtonItem ()
+    let shareButton: UIButton = UIButton(type: .system)
+    let loveButton:  UIButton = UIButton(type: .system)
+    let infoButton:  UIButton = UIButton(type: .system)
+    let trashButton: UIButton = UIButton(type: .system)
 
     // In NavigationBar
     let editButton: UIBarButtonItem = UIBarButtonItem()
     let menuButton: UIButton = CustomButton(type: .system)
 
-    let fixedSpaceWidth: CGFloat = 5
+    let flexibleSpaceItem = UIBarButtonItem(systemItem: .flexibleSpace)
 
 
     override func viewDidLoad() {
@@ -46,22 +47,13 @@ class PhotoViewController: UIViewController {
         self.navigationController?.setToolbarHidden(false, animated: animated)
     }
 
-
-
     // MARK: - Custom NavigationBar
 
     // #1 editButton
     func configureEditButton () {
-
         let editButton = UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(editButtonTapped))
-
-        let fixedSpaceView = UIView(frame: CGRect(x: 0, y: 0, width: fixedSpaceWidth, height: 1))
-        let fixedSpaceItem = UIBarButtonItem(customView: fixedSpaceView)
-
-        let menuBarButton = UIBarButtonItem(customView: menuButton)
-
-        self.navigationItem.rightBarButtonItems = [ menuBarButton, fixedSpaceItem, editButton]
-
+        let menuBarButton  = UIBarButtonItem(customView: menuButton)
+        self.navigationItem.rightBarButtonItems = [ menuBarButton, flexibleSpaceItem, editButton]
         let appearance = UINavigationBarAppearance()
         self.navigationController?.navigationBar.compactAppearance = appearance
     }
@@ -69,6 +61,7 @@ class PhotoViewController: UIViewController {
     @objc func editButtonTapped (_ sender: UIBarButtonItem) {
         print("editButtonTapped")
         let editorVC = EditorViewController()
+        editorVC.modalPresentationStyle = .fullScreen
         present(editorVC, animated: true)
     }
 
@@ -126,58 +119,69 @@ class PhotoViewController: UIViewController {
         print("menuButtonTapped")
         configureMenuButton()
     }
-    // MARK: - Tab Controller
-
-
-
-        func createBarButtonItem(image: UIImage?, action: Selector) -> UIBarButtonItem {
-            return UIBarButtonItem(title: "", image: image, target: self, action: action)
-        }
+    // MARK: - Custom ToolBar
 
     func configureToolBarButton () {
 
-        let shareButton = createBarButtonItem(image: PhotoViewController.shareButtonImage, action: #selector(shareButtonTapped))
-        let loveButton = createBarButtonItem(image: PhotoViewController.loveButtonImage, action: #selector(loveButtonTapped))
-        let infoButton = createBarButtonItem(image: PhotoViewController.infoButtonImage, action: #selector(infoButtonTapped))
-        let trashButton = createBarButtonItem(image: PhotoViewController.trashButtonImage, action: #selector(trashButtonTapped))
+        shareButton.setImage(PhotoViewController.shareButtonImage, for: .normal)
+        shareButton.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
 
-        let toolBarFixedSpaceWidth: CGFloat = 85
-        let toolBarFixedSpaceView = UIView(frame: CGRect(x: 0, y: 0, width: toolBarFixedSpaceWidth, height: 1))
-        let toolBarFixedSpaceItem = UIBarButtonItem(customView: toolBarFixedSpaceView)
+        infoButton.setImage(PhotoViewController.infoButtonImage, for: .normal)
+        infoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+
+        loveButton.setImage(PhotoViewController.loveButtonImage, for: .normal)
+        loveButton.addTarget(self, action: #selector(loveButtonTapped), for: .touchUpInside)
+
+        trashButton.setImage(PhotoViewController.trashButtonImage, for: .normal)
+        trashButton.addTarget(self, action: #selector(tappedTrashButton), for: .touchUpInside)
 
         self.navigationController?.toolbar.isHidden = false
         self.navigationController?.toolbar.isTranslucent = true
         self.navigationController?.toolbar.tintColor = .systemPink
 
         let toolbarAppearance = UIToolbarAppearance()
-        self.navigationController?.toolbar.compactScrollEdgeAppearance = toolbarAppearance
+        self.navigationController?.toolbar.scrollEdgeAppearance = toolbarAppearance
 
-        self.toolbarItems = [shareButton, toolBarFixedSpaceItem, loveButton, toolBarFixedSpaceItem,  infoButton, toolBarFixedSpaceItem, trashButton]
+        let shareBarButton: UIBarButtonItem = UIBarButtonItem(customView: shareButton)
+        let loveBarButton : UIBarButtonItem = UIBarButtonItem(customView: loveButton)
+        let inforBarButton: UIBarButtonItem = UIBarButtonItem(customView: infoButton)
+        let trashBarButton: UIBarButtonItem = UIBarButtonItem(customView: trashButton)
+
+        self.toolbarItems = [shareBarButton, flexibleSpaceItem,
+                             loveBarButton,  flexibleSpaceItem,
+                             inforBarButton, flexibleSpaceItem, trashBarButton]
     }
 
     @objc func shareButtonTapped (_ sender: UIBarButtonItem) {
         print("shareButtonTapped")
-        let activityController = UIActivityViewController(activityItems: [""], applicationActivities: nil)
-        self.present(activityController, animated: true)
+//        let activityController = UIActivityViewController(activityItems: [""], applicationActivities: nil)
+//        self.present(activityController, animated: true)
     }
 
-    @objc func loveButtonTapped (_ sender: UIButton) {
+    @objc func loveButtonTapped () {
         print("loveButtonTapped")
 
     }
 
-    @objc func infoButtonTapped (_ sender: UIButton) {
+    @objc func infoButtonTapped () {
         print("infoButtonTapped")
 
     }
 
-    @objc func trashButtonTapped (_ sender: UIButton) {
-        print("trashButtonTapped")
-
+    @objc func tappedTrashButton () {
+        let alertController = UIAlertController(title: "", message: "This photo will be deleted from iCloud Photos on your devices. It will be in Recently Deleted for 30 days.", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+                   // Handle the delete action
+                   print("Item deleted")
+               }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+               alertController.addAction(deleteAction)
+               alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 
-
-
-
+    @objc func deleteActionSheetTapped (_ sender: UIAlertAction) {
+        print("Delete actionSheet tapped ")
+    }
 }
 

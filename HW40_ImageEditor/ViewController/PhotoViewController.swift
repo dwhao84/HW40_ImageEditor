@@ -61,8 +61,7 @@ class PhotoViewController: UIViewController {
     @objc func editButtonTapped (_ sender: UIBarButtonItem) {
         print("editButtonTapped")
         let editorVC = EditorViewController()
-        editorVC.modalPresentationStyle = .fullScreen
-        present(editorVC, animated: true)
+        self.navigationController?.pushViewController(editorVC, animated: true)
     }
 
     // #2 menuButton

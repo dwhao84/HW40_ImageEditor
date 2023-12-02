@@ -100,11 +100,11 @@ class HomePageViewController: UIViewController {
     // selectImageButton
     @objc func selectImageButtonTapped (_ sender: UIButton) {
 
-//        print("selectImageButtonTapped")
-//
-//        var configuration = PHPickerConfiguration()
-//        // Choose photos or videos.
-//        configuration.filter = .images
+        print("selectImageButtonTapped")
+
+        var configuration = PHPickerConfiguration()
+        // Choose photos or videos.
+        configuration.filter = .images
 //        let picker = PHPickerViewController(configuration: configuration)
 //        picker.delegate = self
 //        // Show PHPickerVC

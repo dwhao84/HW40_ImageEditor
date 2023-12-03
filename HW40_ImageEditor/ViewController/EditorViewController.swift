@@ -9,10 +9,15 @@ import UIKit
 
 class EditorViewController: UIViewController {
 
+    static let adjustImage  = UIImage(systemName: "dial.low.fill")
+    static let filtersImage = UIImage(systemName: "camera.filters")
+    static let cropImage    = UIImage(systemName: "crop.rotate")
+
+
     // In toolBar
-    let editButton   = UIButton(type: .system)
-    let plusButton   = UIButton(type: .system)
-    let cameraButton = UIButton(type: .system)
+    let adjustButton:  UIButton  = UIButton(type: .system)
+    let filtersButton: UIButton  = UIButton(type: .system)
+    let cropButton:    UIButton  = UIButton(type: .system)
 
     let resetButton = CustomButton(type: .system)
 
@@ -20,30 +25,88 @@ class EditorViewController: UIViewController {
     let cancelButton: UIButton = UIButton(type: .system)
     let doneButton:   UIButton = UIButton(type: .system)
 
+    let backButton:     UIButton = UIButton(type: .system)
+    let forwardButton:  UIButton = UIButton(type: .system)
+    let redEyeButton:   UIButton = UIButton(type: .system)
+    let markupButton:   UIButton = UIButton(type: .system)
+    let optionButton:   UIButton = UIButton(type: .system)
 
-
+    // ADJUST or rest of status.
+    let statusLabel:    UILabel  = UILabel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = .black
 
+        configureadjustButton()
+        configureFiltersButton()
+        configureCropButton()
+        configureToolbar()
+
+
         configureDoneBarButton()
         configureCancelBarButton()
 
     }
     // MARK: - Custom toolBar
-    func configureEditButton () {
-        editButton.configuration = UIButton.Configuration.plain()
-        editButton.setTitle("Edit", for: .normal)
-        editButton.tintColor = .systemPink
-        editButton.isUserInteractionEnabled = true
+    func configureadjustButton () {
+        adjustButton.configuration = UIButton.Configuration.plain()
+        adjustButton.setTitle("Adjust", for: .normal)
+        adjustButton.tintColor = .systemPink
+        adjustButton.isUserInteractionEnabled = true
 
-        editButton.widthAnchor.constraint(equalToConstant: 0).isActive  = true
-        editButton.heightAnchor.constraint(equalToConstant: 0).isActive = true
+//        adjustButton.widthAnchor.constraint(equalToConstant: 50).isActive  = true
+//        adjustButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        adjustButton.addTarget(self, action: #selector(adjustButtonTapped), for: .touchUpInside)
     }
+
+    func configureFiltersButton () {
+        filtersButton.configuration = UIButton.Configuration.plain()
+        filtersButton.setTitle("Filters", for: .normal)
+        filtersButton.setImage(EditorViewController.filtersImage, for: .normal)
+        filtersButton.tintColor = .lightGray
+        filtersButton.isUserInteractionEnabled = true
+
+//        filtersButton.widthAnchor.constraint(equalToConstant: 50).isActive  = true
+//        filtersButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+        filtersButton.addTarget(self, action: #selector(filtersButtonTapped), for: .touchUpInside)
+    }
+
+    func configureCropButton () {
+        cropButton.configuration = UIButton.Configuration.plain()
+        cropButton.setTitle("Crop", for: .normal)
+        cropButton.setImage(EditorViewController.cropImage, for: .normal)
+        cropButton.tintColor = .lightGray
+        cropButton.isUserInteractionEnabled = true
+
+//        cropButton.widthAnchor.constraint(equalToConstant: 50).isActive  = true
+//        cropButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
+        cropButton.addTarget(self, action: #selector(cropButtonTapped), for: .touchUpInside)
+    }
+
+    func configureToolbar () {
+
+        self.navigationController?.toolbar.isTranslucent = true
+        self.navigationController?.toolbar.barTintColor = .clear
+        let toolbarAppearance = UIToolbarAppearance()
+        self.navigationController?.toolbar.standardAppearance = toolbarAppearance
+
+        let flexibleSpaceItem: UIBarButtonItem = UIBarButtonItem(systemItem: .flexibleSpace)
+        let fixedSpaceItem: UIBarButtonItem = UIBarButtonItem(systemItem: .fixedSpace)
+
+        let adjustBarButton: UIBarButtonItem  = UIBarButtonItem(customView: adjustButton)
+        let flitersBarButton: UIBarButtonItem = UIBarButtonItem(customView: filtersButton)
+        let cropBarButton: UIBarButtonItem    = UIBarButtonItem(customView: cropButton)
+
+        self.toolbarItems = [
+            flexibleSpaceItem, adjustBarButton, fixedSpaceItem, flitersBarButton, fixedSpaceItem, cropBarButton, flexibleSpaceItem
+        ]
+    }
+
 
     // MARK: - Custom NavigationItem
     // cancelButton
@@ -56,6 +119,7 @@ class EditorViewController: UIViewController {
             .font: UIFont.boldSystemFont(ofSize: 14),
             .foregroundColor: UIColor.black
         ]
+
         let attributedText = NSAttributedString(string: "Cancel", attributes: attributes)
         cancelButton.setAttributedTitle(attributedText, for: .normal)
 
@@ -83,10 +147,12 @@ class EditorViewController: UIViewController {
             .font: UIFont.boldSystemFont(ofSize: 14),
             .foregroundColor: UIColor.black
         ]
+
         let attributedText = NSAttributedString(string: "Done", attributes: attributes)
         doneButton.setAttributedTitle(attributedText, for: .normal)
 
         doneButton.isEnabled = false
+//        doneButton.isUserInteractionEnabled = false
         doneButton.tintColor = .systemYellow
         doneButton.layer.cornerRadius = doneButtonHeight / 2
         doneButton.clipsToBounds = true
@@ -100,26 +166,26 @@ class EditorViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = doneBarButton
     }
 
-    // MARK: - @objc actuon
-    @objc func editButtonTapped () {
-        print("editButtonTapped")
+    // MARK: - toolBar @objc function.
+    @objc func adjustButtonTapped () {
+        print("adjustButtonTapped")
 
     }
 
-    @objc func plusButtonTapped () {
-        print("plusButtonTapped")
+    @objc func filtersButtonTapped () {
+        print("FiltersButtonTapped")
 
     }
 
-    @objc func cameraButtonTapped () {
-        print("plusButtonTapped")
+    @objc func cropButtonTapped () {
+        print("FiltersButtonTapped")
 
     }
 
+    // MARK: - navigationItem's @objc function.
     @objc func doneButtonTapped (_ sender: UIButton) {
         print("doneButtonTapped")
     }
-
 
     @objc func cancelButtonTapped (_ sender: UIButton) {
         print("cancelButtonTapped")
